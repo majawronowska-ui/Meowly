@@ -1,10 +1,11 @@
 import { useState } from "react";
 import {
-  BrowserRouter,
+  HashRouter,
   Routes,
   Route,
   useNavigate,
   Link,
+  BrowserRouter,
 } from "react-router-dom";
 import catImage from "./assets/register-cat.jpg";
 import Sidebar from "./components/layout/Sidebar";
@@ -52,7 +53,7 @@ function Register() {
       role: "user",
     };
 
-    const response = await fetch("http://127.0.0.1:8000/register", {
+    const response = await fetch("https://meowly.onrender.com/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -224,7 +225,7 @@ function Login() {
       password: (form.elements.namedItem("password") as HTMLInputElement).value,
     };
 
-    const response = await fetch("http://127.0.0.1:8000/login", {
+    const response = await fetch("https://meowly.onrender.com/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -236,9 +237,8 @@ function Login() {
       localStorage.setItem("meowlyUser", JSON.stringify(data.user));
       if (data.user.email === "maja.wronowska@interia.pl") {
         navigate("/admin");
-      } else if (data.user.role === "foundation") {
-        navigate("/foundation");
-      } else {
+      } 
+      else {
         navigate("/dashboard");
       }
     } else {
@@ -264,10 +264,15 @@ function Login() {
 
             <div>
               <label className="font-black text-slate-800">Hasło</label>
-              <input name="password" type="password" required className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none focus:border-orange-500" placeholder="••••••••" />
+              <input name="password" type="password" required className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none focus:border-orange-500" placeholder="••••••••" /
+              >
             </div>
 
-            <button className="h-14 w-full rounded-2xl bg-gradient-to-r from-orange-400 to-orange-600 font-black text-white shadow-lg shadow-orange-200">
+            <button 
+              type="submit"
+              onClick={() => console.log("klikni´to login")}
+              className="h-14 w-full rounded-2xl bg-gradient-to-r from-orange-400 to-orange-600 font-black text-white shadow-lg shadow-orange-200"
+            >
               Zaloguj się
             </button>
 
@@ -427,7 +432,7 @@ function ProfilePage() {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`http://127.0.0.1:8000/upload-avatar/${user.id}`, {
+    const response = await fetch(`https://meowly.onrender.com/upload-avatar/${user.id}`, {
       method: "POST",
       body: formData,
     });
@@ -617,7 +622,7 @@ function AdminPage() {
   }
 
   async function loadUsers() {
-    const response = await fetch("http://127.0.0.1:8000/admin/users");
+    const response = await fetch("https://meowly.onrender.com/admin/users");
     const data = await response.json();
     setUsers(data);
   }
@@ -626,7 +631,7 @@ function AdminPage() {
     const confirmDelete = confirm("Czy na pewno chcesz usunąć tego użytkownika?");
     if (!confirmDelete) return;
 
-    const response = await fetch(`http://127.0.0.1:8000/admin/users/${userId}`, {
+    const response = await fetch(`https://meowly.onrender.com/admin/users/${userId}`, {
       method: "DELETE",
     });
 
@@ -759,7 +764,7 @@ function AdminPage() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
@@ -770,6 +775,6 @@ export default function App() {
         <Route path="/verified" element={<VerifiedPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
