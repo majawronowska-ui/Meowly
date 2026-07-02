@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie | Meowly</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="auth-page">
+        <section class="auth-card">
+            <a href="index.html" class="back-link">← Wróć do mapy</a>
+
+            <h1>Witaj ponownie</h1>
+            <p>Zaloguj się, aby wykonywać misje i zdobywać XP.</p>
+
+            <form class="auth-form" id="login-form">
+                <label>Email</label>
+                <input id="email" type="email" placeholder="twoj@email.com" required>
+
+                <label>Hasło</label>
+                <input id="password" type="password" placeholder="••••••••" required>
+
+                <button type="submit">Zaloguj się</button>
+
+                <p id="login-message"></p>
+            </form>
+
+            <p class="auth-bottom">
+                Nie masz konta? <a href="#">Zarejestruj się</a>
+            </p>
+        </section>
+    </main>
+    <script src="js/login.js"></script>
+</body>
+</html>

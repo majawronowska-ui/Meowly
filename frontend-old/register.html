@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja | Meowly</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="register-page">
+        <section class="register-left">
+            <div class="register-logo">🐾 Meowly</div>
+
+            <div class="register-text">
+                <h1>Razem możemy więcej</h1>
+                <p>Dołącz do społeczności Meowly i pomagaj kotom w swojej okolicy.</p>
+            </div>
+
+            <div class="register-features">
+                <div>
+                    <strong>Pomagaj lokalnie</strong>
+                    <p>Wykonuj misje i wspieraj fundacje.</p>
+                </div>
+
+                <div>
+                    <strong>Zdobywaj XP</strong>
+                    <p>Awansuj, zdobywaj odznaki i poziomy.</p>
+                </div>
+
+                <div>
+                    <strong>Twórz dobro</strong>
+                    <p>Każda akcja ma realny wpływ.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="register-right">
+            <div class="register-card">
+                <h2>Załóż konto</h2>
+                <p>To zajmie tylko chwilę!</p>
+
+                <form id="register-form" class="register-form">
+                    <label>Imię</label>
+                    <input id="name" type="text" placeholder="Twoje imię" required>
+
+                    <label>Email</label>
+                    <input id="email" type="email" placeholder="twoj@email.com" required>
+
+                    <label>Hasło</label>
+                    <input id="password" type="password" placeholder="Minimum 6 znaków" required>
+
+                    <button type="submit">Zarejestruj się</button>
+
+                    <p id="register-message"></p>
+                </form>
+
+                <p class="register-login">
+                    Masz już konto? <a href="login.html">Zaloguj się</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/register.js"></script>
+</body>
+</html>

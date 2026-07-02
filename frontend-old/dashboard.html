@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Meowly</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="dashboard-page">
+        <aside class="side-menu">
+            <h2>Meowly</h2>
+
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="index.html">Mapa</a>
+            <a href="#">Misje</a>
+            <a href="#">Zgłoszenia</a>
+            <a href="#">Adopcje</a>
+            <a href="#">Fundacje</a>
+            <a href="#">Ranking</a>
+            <a href="profile.html">Profil</a>
+        </aside>
+
+        <section class="dashboard-content">
+            <div class="dashboard-header">
+                <div>
+                    <p class="small-label">Twoje konto</p>
+                    <h1 id="helloUser">Cześć!</h1>
+                </div>
+
+                <a href="index.html" class="login-button">Przejdź do mapy</a>
+            </div>
+
+            <div class="xp-card">
+                <h2>Poziom 1 — Odkrywca Kotów</h2>
+                <p>0 / 100 XP</p>
+
+                <div class="xp-bar">
+                    <div class="xp-fill"></div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card big">
+                    <p class="small-label">Najbliższa misja</p>
+                    <h2>Sprawdź budkę dla kotów</h2>
+                    <p>Zweryfikuj, czy budka jest czysta, sucha i bezpieczna.</p>
+                    <strong>+50 XP • 300 m</strong>
+                    <button>Rozpocznij misję</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Misje</h3>
+                    <p class="stat-number">0</p>
+                    <span>ukończone</span>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Zgłoszenia</h3>
+                    <p class="stat-number">0</p>
+                    <span>wysłane</span>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Odznaki</h3>
+                    <p class="stat-number">0</p>
+                    <span>zdobyte</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
