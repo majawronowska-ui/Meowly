@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -37,7 +37,6 @@ function Home() {
 }
 
 function Register() {
-  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [accountType, setAccountType] = useState("user");
 
@@ -50,7 +49,7 @@ function Register() {
       name: (form.elements.namedItem("name") as HTMLInputElement).value,
       email: (form.elements.namedItem("email") as HTMLInputElement).value,
       password: (form.elements.namedItem("password") as HTMLInputElement).value,
-      role: accountType,
+      role: "user",
     };
 
     const response = await fetch("http://127.0.0.1:8000/register", {
@@ -592,7 +591,6 @@ function AdminPage() {
 
   const [users, setUsers] = useState<any[]>([]);
   const [message, setMessage] = useState("");
-  const [accountType, setAccountType] = useState("user");
   const [difficulty, setDifficulty] = useState("easy");
   const [xp, setXp] = useState(10);
 
