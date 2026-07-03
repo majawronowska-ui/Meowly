@@ -95,8 +95,10 @@ def verify_email(token: str, db: Session = Depends(get_db)):
 
     db.commit()
 
+    FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5174")
+
     return RedirectResponse(
-        url="http://localhost:5173/verified",
+        url=f"{FRONTEND_URL}/#/verified",
         status_code=302
     )
 
@@ -107,11 +109,7 @@ def login_user(user: dict, db: Session = Depends(get_db)):
 
     if not existing_user:
         return {"success": False, "message": "Nie znaleziono użytkownika."}
-    if not existing_user.verified:
-        return {
-            "success": False,
-            "message": "Najpierw potwierdź adres e-mail."
-        }
+
     if existing_user.password != user["password"]:
         return {"success": False, "message": "Nieprawidłowe hasło."}
 
@@ -126,7 +124,7 @@ def login_user(user: dict, db: Session = Depends(get_db)):
             "role": existing_user.role,
             "xp": existing_user.xp,
             "level": existing_user.level,
-            "avatar": f"http://127.0.0.1:8000/uploads/{existing_user.avatar}" if existing_user.avatar else None,
+            "avatar": f"https://meowly.onrender.com/uploads/{existing_user.avatar}" if existing_user.avatar else None,
         },
     }
 
@@ -169,7 +167,7 @@ async def upload_avatar(
 
     return {
         "success": True,
-        "avatar": f"http://127.0.0.1:8000/uploads/{filename}"
+        "avatar": f"https://meowly.onrender.com/uploads/{filename}"
     }
 
 @app.get("/admin/users")

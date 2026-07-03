@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const items = [
+const normalItems = [
   { name: "Dashboard", path: "/dashboard", icon: "🏠" },
   { name: "Mapa", path: "/map", icon: "🗺️" },
   { name: "Misje", path: "/missions", icon: "🎯" },
@@ -8,10 +8,16 @@ const items = [
   { name: "Fundacje", path: "/foundations", icon: "❤️" },
   { name: "Ranking", path: "/ranking", icon: "🏆" },
   { name: "Profil", path: "/profile", icon: "👤" },
-  { name: "Admin", path: "/admin", icon: "🛠️" },
 ];
 
 export default function Sidebar() {
+  const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
+
+  const items =
+    user?.email === "maja.wronowska@interia.pl"
+      ? [...normalItems, { name: "Admin", path: "/admin", icon: "🛠️" }]
+      : normalItems;
+
   return (
     <aside className="w-72 bg-white p-8 shadow-xl">
       <h1 className="mb-10 text-3xl font-black text-orange-500">
