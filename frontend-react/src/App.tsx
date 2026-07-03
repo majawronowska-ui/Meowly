@@ -5,7 +5,6 @@ import {
   Route,
   useNavigate,
   Link,
-  BrowserRouter,
 } from "react-router-dom";
 import catImage from "./assets/register-cat.jpg";
 import Sidebar from "./components/layout/Sidebar";
@@ -50,7 +49,7 @@ function Register() {
       name: (form.elements.namedItem("name") as HTMLInputElement).value,
       email: (form.elements.namedItem("email") as HTMLInputElement).value,
       password: (form.elements.namedItem("password") as HTMLInputElement).value,
-      role: "user",
+      role: accountType,
     };
 
     const response = await fetch("https://meowly.onrender.com/register", {
@@ -62,8 +61,12 @@ function Register() {
     const data = await response.json();
 
     if (data.success) {
-      setMessage(data.message || "Konto zostało utworzone. Sprawdź e-mail.");
-    } else {
+      setMessage("Konto zostało utworzone. Możesz się zalogować.");
+      setTimeout(() => {
+        window.location.href = "/#/login";
+      }, 1500);
+    } 
+    else {
       setMessage(data.message || "Nie udało się utworzyć konta.");
     }
   }
@@ -247,8 +250,8 @@ function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fff8f0] p-6">
-      <section className="flex min-h-[calc(100vh-48px)] items-center justify-center rounded-[36px] bg-white shadow-2xl">
+    <main className="relative z-50 min-h-screen bg-[#fff8f0] p-6">
+     <section className="relative z-50 flex min-h-[calc(100vh-48px)] items-center justify-center rounded-[36px] bg-white shadow-2xl">
         <div className="w-full max-w-md rounded-[36px] bg-white p-10 shadow-xl">
           <h1 className="text-center text-5xl font-black text-slate-900">Zaloguj się</h1>
 
@@ -256,7 +259,10 @@ function Login() {
             Wróć do swoich misji i XP.
           </p>
 
-          <form onSubmit={handleLogin} className="mt-8 space-y-5">
+          <form
+            onSubmit={handleLogin}
+            className="relative z-50 mt-8 space-y-5"
+          >
             <div>
               <label className="font-black text-slate-800">Email</label>
               <input name="email" type="email" required className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none focus:border-orange-500" placeholder="twoj@email.com" />
@@ -270,7 +276,7 @@ function Login() {
 
             <button 
               type="submit"
-              onClick={() => console.log("klikni´to login")}
+              onClick={() => alert("Klik dziala")}
               className="h-14 w-full rounded-2xl bg-gradient-to-r from-orange-400 to-orange-600 font-black text-white shadow-lg shadow-orange-200"
             >
               Zaloguj się
