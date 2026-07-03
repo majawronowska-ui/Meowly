@@ -59,24 +59,24 @@ def register_user(user: dict, db: Session = Depends(get_db)):
         xp=0,
         level=1,
         verified=False,
-        verification_token=token,
+        verification_token=None,
     )
 
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    try:
-        print("PRÓBUJĘ WYSŁAĆ MAILA DO:", new_user.email)
-        send_verification_email(new_user.email, token)
-        print("✅ Mail wysłany")
-    except Exception as e:
-        print("❌ BŁĄD WYSYŁANIA MAILA:")
-        print(e)
+   # try:
+     #   print("PRÓBUJĘ WYSŁAĆ MAILA DO:", new_user.email)
+      #  send_verification_email(new_user.email, token)
+      #  print("✅ Mail wysłany")
+    #except Exception as e:
+      #  print("❌ BŁĄD WYSYŁANIA MAILA:")
+      #  print(e)
 
-    return {
-    "success": True,
-    "message": "Konto zostało utworzone. Sprawdź e-mail i potwierdź konto."
-    }
+   # return {
+   # "success": True,
+   # "message": "Konto zostało utworzone. Sprawdź e-mail i potwierdź konto."
+   # }
 
 from fastapi.responses import RedirectResponse
 
@@ -107,8 +107,8 @@ def verify_email(token: str, db: Session = Depends(get_db)):
 def login_user(user: dict, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user["email"]).first()
 
-    if not existing_user:
-        return {"success": False, "message": "Nie znaleziono użytkownika."}
+    #if not existing_user:
+      # return {"success": False, "message": "Nie znaleziono użytkownika."}
 
     if existing_user.password != user["password"]:
         return {"success": False, "message": "Nieprawidłowe hasło."}
