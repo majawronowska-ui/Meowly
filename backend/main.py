@@ -1,19 +1,22 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 import secrets
-from email_service import send_verification_email
-from fastapi import UploadFile, File
-from fastapi.staticfiles import StaticFiles
 import shutil
 import os
+
+from email_service import send_verification_email
 from routes.users import router as users_router
 from routes.missions import router as missions_router
 from database import create_database, seed_database, SessionLocal
 from models import User
-from fastapi.responses import RedirectResponse
 
 app = FastAPI(title="Meowly API")
+
+BACKEND_URL = os.getenv("BACKEND_URL", "https://meowly.onrender.com")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://meowly.com.pl")
 
 os.makedirs("uploads", exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
@@ -46,10 +49,11 @@ def home():
 @app.post("/register")
 def register_user(user: dict, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user["email"]).first()
-    token = secrets.token_urlsafe(32)
-    
+
     if existing_user:
         return {"success": False, "message": "Użytkownik z tym emailem już istnieje."}
+
+    token = secrets.token_urlsafe(32)
 
     new_user = User(
         name=user["name"],
@@ -59,60 +63,53 @@ def register_user(user: dict, db: Session = Depends(get_db)):
         xp=0,
         level=1,
         verified=False,
-        verification_token=None,
+        verification_token=token,
     )
 
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-   # try:
-     #   print("PRÓBUJĘ WYSŁAĆ MAILA DO:", new_user.email)
-      #  send_verification_email(new_user.email, token)
-      #  print("✅ Mail wysłany")
-    #except Exception as e:
-      #  print("❌ BŁĄD WYSYŁANIA MAILA:")
-      #  print(e)
 
-   # return {
-   # "success": True,
-   # "message": "Konto zostało utworzone. Sprawdź e-mail i potwierdź konto."
-   # }
+    try:
+        print("PRÓBUJĘ WYSŁAĆ MAILA DO:", new_user.email)
+        send_verification_email(new_user.email, token)
+        print("✅ Mail wysłany")
+    except Exception as e:
+        print("❌ BŁĄD WYSYŁANIA MAILA:")
+        print(e)
 
-from fastapi.responses import RedirectResponse
+    return {
+        "success": True,
+        "message": "Konto zostało utworzone. Sprawdź e-mail i potwierdź konto.",
+    }
+
 
 @app.get("/verify/{token}")
 def verify_email(token: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.verification_token == token).first()
 
     if not user:
-        return {
-            "success": False,
-            "message": "Nieprawidłowy token."
-        }
+        return RedirectResponse(url=f"{FRONTEND_URL}/verified?status=error", status_code=302)
 
     user.verified = True
     user.verification_token = None
-
     db.commit()
 
-    FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5174")
-
-    return RedirectResponse(
-        url=f"{FRONTEND_URL}/#/verified",
-        status_code=302
-    )
+    return RedirectResponse(url=f"{FRONTEND_URL}/verified", status_code=302)
 
 
 @app.post("/login")
 def login_user(user: dict, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user["email"]).first()
 
-    #if not existing_user:
-      # return {"success": False, "message": "Nie znaleziono użytkownika."}
+    if not existing_user:
+        return {"success": False, "message": "Nie znaleziono użytkownika."}
+
+    if not existing_user.verified:
+        return {"success": False, "message": "Najpierw potwierdź adres e-mail."}
 
     if existing_user.password != user["password"]:
         return {"success": False, "message": "Nieprawidłowe hasło."}
-
 
     return {
         "success": True,
@@ -124,7 +121,7 @@ def login_user(user: dict, db: Session = Depends(get_db)):
             "role": existing_user.role,
             "xp": existing_user.xp,
             "level": existing_user.level,
-            "avatar": f"https://meowly.onrender.com/uploads/{existing_user.avatar}" if existing_user.avatar else None,
+            "avatar": f"{BACKEND_URL}/uploads/{existing_user.avatar}" if existing_user.avatar else None,
         },
     }
 
@@ -138,6 +135,7 @@ def get_stats():
         "adoptions": 9,
     }
 
+
 @app.post("/upload-avatar/{user_id}")
 async def upload_avatar(
     user_id: int,
@@ -147,28 +145,23 @@ async def upload_avatar(
     user = db.query(User).filter(User.id == user_id).first()
 
     if not user:
-        return {
-            "success": False,
-            "message": "Nie znaleziono użytkownika."
-        }
+        return {"success": False, "message": "Nie znaleziono użytkownika."}
 
     extension = file.filename.split(".")[-1]
-
     filename = f"avatar_{user_id}.{extension}"
-
     filepath = os.path.join("uploads", filename)
 
     with open(filepath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
     user.avatar = filename
-
     db.commit()
 
     return {
         "success": True,
-        "avatar": f"https://meowly.onrender.com/uploads/{filename}"
+        "avatar": f"{BACKEND_URL}/uploads/{filename}",
     }
+
 
 @app.get("/admin/users")
 def admin_get_users(db: Session = Depends(get_db)):
@@ -194,18 +187,13 @@ def admin_delete_user(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
 
     if not user:
-        return {
-            "success": False,
-            "message": "Nie znaleziono użytkownika."
-        }
+        return {"success": False, "message": "Nie znaleziono użytkownika."}
 
     db.delete(user)
     db.commit()
 
-    return {
-        "success": True,
-        "message": "Użytkownik został usunięty."
-    }
+    return {"success": True, "message": "Użytkownik został usunięty."}
+
 
 app.include_router(users_router)
 app.include_router(missions_router)
