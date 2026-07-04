@@ -2,7 +2,6 @@ from fastapi import FastAPI, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
-from sqlalchemy.orm import Session
 import secrets
 import shutil
 import os
