@@ -1,127 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Card from "../ui/Card";
-import Button from "../ui/Button";
-import Input from "../ui/Input";
-import { api } from "../services/api";
 
-export default function ChangePassword() {
-  const user = JSON.parse(
-    localStorage.getItem("meowlyUser") || "null"
-  );
+interface Activity {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+}
 
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+export default function ProfileActivity() {
+  const [activities, setActivities] = useState<Activity[]>([]);
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
-  async function handleSubmit() {
-    setMessage("");
-
-    if (!currentPassword || !newPassword || !repeatPassword) {
-      setMessage("Uzupełnij wszystkie pola.");
-      return;
-    }
-
-    if (newPassword.length < 6) {
-      setMessage("Hasło musi mieć minimum 6 znaków.");
-      return;
-    }
-
-    if (newPassword !== repeatPassword) {
-      setMessage("Nowe hasła nie są takie same.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const response = await api.put(
-        `/users/${user.id}/password`,
-        {
-          currentPassword,
-          newPassword,
-        }
-      );
-
-      if (response.data.success) {
-        setMessage("Hasło zostało zmienione.");
-
-        setCurrentPassword("");
-        setNewPassword("");
-        setRepeatPassword("");
-      } else {
-        setMessage(
-          response.data.message ||
-            "Nie udało się zmienić hasła."
-        );
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("Wystąpił błąd serwera.");
-    }
-
-    setLoading(false);
-  }
+  useEffect(() => {
+    // Tymczasowe dane — później możesz pobierać je z API
+    setActivities([
+      {
+        id: 1,
+        title: "Ukończono misję",
+        description: "Dokarmienie kotów wolno żyjących",
+        date: "Dzisiaj",
+      },
+      {
+        id: 2,
+        title: "Zdobyto odznakę",
+        description: "Koci Wolontariusz",
+        date: "Wczoraj",
+      },
+      {
+        id: 3,
+        title: "Dodano zgłoszenie",
+        description: "Zgłoszono kota wymagającego pomocy",
+        date: "3 dni temu",
+      },
+    ]);
+  }, []);
 
   return (
-    <Card>
+    <Card
+      title="Ostatnia aktywność"
+      subtitle="Twoje ostatnie działania w Meowly."
+    >
+      <div className="space-y-4">
+        {activities.length === 0 ? (
+          <div className="rounded-2xl bg-orange-50 p-6 text-center text-slate-500">
+            Brak aktywności.
+          </div>
+        ) : (
+          activities.map((activity) => (
+            <div
+              key={activity.id}
+              className="rounded-2xl border border-orange-100 bg-orange-50 p-5 transition hover:shadow-md"
+            >
+              <div className="flex items-center justify-between">
+                <h3 className="font-black text-slate-900">
+                  {activity.title}
+                </h3>
 
-      <h2 className="text-2xl font-black text-slate-900">
-        Zmień hasło
-      </h2>
+                <span className="text-sm font-semibold text-slate-400">
+                  {activity.date}
+                </span>
+              </div>
 
-      <p className="mt-2 text-slate-500">
-        Dla bezpieczeństwa podaj obecne hasło.
-      </p>
-
-      <div className="mt-6 space-y-4">
-
-        <Input
-          label="Obecne hasło"
-          type="password"
-          value={currentPassword}
-          onChange={(e) =>
-            setCurrentPassword(e.target.value)
-          }
-        />
-
-        <Input
-          label="Nowe hasło"
-          type="password"
-          value={newPassword}
-          onChange={(e) =>
-            setNewPassword(e.target.value)
-          }
-        />
-
-        <Input
-          label="Powtórz nowe hasło"
-          type="password"
-          value={repeatPassword}
-          onChange={(e) =>
-            setRepeatPassword(e.target.value)
-          }
-        />
-
-        {message && (
-          <p className="font-semibold text-orange-600">
-            {message}
-          </p>
+              <p className="mt-2 text-slate-600">
+                {activity.description}
+              </p>
+            </div>
+          ))
         )}
-
-        <Button
-          fullWidth
-          loading={loading}
-          onClick={handleSubmit}
-        >
-          Zapisz nowe hasło
-        </Button>
-
       </div>
-
     </Card>
   );
 }
