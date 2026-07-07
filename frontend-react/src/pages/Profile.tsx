@@ -87,7 +87,6 @@ export default function Profile() {
                   reports={5}
                 />
 
-                {/** ProfileActivity's props typing may differ; cast to any to avoid TSX prop errors here */}
                 {(() => {
                   const Activity: any = ProfileActivity;
                   return <Activity activities={activities} />;

@@ -10,7 +10,7 @@ export interface User {
 
   email: string;
 
-  role: UserRole;
+  role: "user" | "foundation";
 
   avatar?: string;
 

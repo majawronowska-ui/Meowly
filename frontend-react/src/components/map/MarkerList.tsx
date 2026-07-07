@@ -1,6 +1,4 @@
-// Ignore missing module error if the MarkerCard type declarations are not found
-// @ts-ignore
-import MarkerCard from "./MarkerCard";
+import MarkerCard from "./MarkerCard.tsx";
 import type { Marker } from "../../types/Marker";
 
 interface Props {
