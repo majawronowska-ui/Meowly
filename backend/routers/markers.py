@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from database import SessionLocal
-from models.marker import Marker
+from models import Marker
 
 router = APIRouter(
     prefix="/markers",
