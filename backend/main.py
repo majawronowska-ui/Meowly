@@ -8,8 +8,10 @@ import shutil
 import os
 
 from email_service import send_verification_email
-from routes.users import router as users_router
-from routes.missions import router as missions_router
+from routers.users import router as users_router
+from routers.auth import router as auth_router
+from routers.missions import router as missions_router
+from routers.markers import router as markers_router
 from database import create_database, seed_database, SessionLocal
 from models import User
 
@@ -197,3 +199,5 @@ def admin_delete_user(user_id: int, db: Session = Depends(get_db)):
 
 app.include_router(users_router)
 app.include_router(missions_router)
+app.include_router(markers_router)
+app.include_router(auth_router)

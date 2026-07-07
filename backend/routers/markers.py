@@ -1,12 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-try:
-    from backend.database import SessionLocal
-    from backend.models.marker import Marker
-except ImportError:
-    from ..database import SessionLocal
-    from ..models.marker import Marker
+from database import SessionLocal
+from models.marker import Marker
 
 router = APIRouter(
     prefix="/markers",
@@ -88,4 +84,13 @@ def update_marker(
         .first()
     )
 
-    if not db_marker:
+    if not marker:
+        raise HTTPException(
+            status_code=404,
+            detail="Marker nie istnieje."
+        )
+    db.delete(marker)
+    db.commit()
+    return {
+        "success": True
+    }
