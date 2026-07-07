@@ -45,3 +45,22 @@ def create_mission(mission: dict, db: Session = Depends(get_db)):
             "xp": new_mission.xp,
         },
     }
+
+@router.get("/admin")
+def admin_get_missions(db: Session = Depends(get_db)):
+    missions = db.query(Mission).all()
+
+    return [
+        {
+            "id": mission.id,
+            "title": mission.title,
+            "description": mission.description,
+            "category": mission.category,
+            "difficulty": mission.difficulty,
+            "xp": mission.xp,
+            "location": mission.location,
+            "status": mission.status,
+            "created_by": mission.created_by,
+        }
+        for mission in missions
+    ]
