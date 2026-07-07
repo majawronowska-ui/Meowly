@@ -1,21 +1,21 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base
+
 from models import Base, Mission
 
-DATABASE_URL = "sqlite:///./meowly.db"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False}
-)
+if not DATABASE_URL:
+    raise RuntimeError("Brak zmiennej środowiskowej DATABASE_URL")
+
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
-    bind=engine
+    bind=engine,
 )
-
 
 def create_database():
     Base.metadata.create_all(bind=engine)
@@ -55,3 +55,5 @@ def seed_database():
         db.commit()
 
     db.close()
+
+psycopg2-binary
