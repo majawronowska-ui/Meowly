@@ -98,13 +98,19 @@ def verify_email(token: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.verification_token == token).first()
 
     if not user:
-        return RedirectResponse(url=f"{FRONTEND_URL}/verified?status=error", status_code=302)
+        return RedirectResponse(
+            url=f"{FRONTEND_URL}/#/verified?status=error",
+            status_code=302,
+        )
 
     user.verified = True
     user.verification_token = None
     db.commit()
 
-    return RedirectResponse(url=f"{FRONTEND_URL}/verified", status_code=302)
+    return RedirectResponse(
+        url=f"{FRONTEND_URL}/#/verified",
+        status_code=302,
+    )
 
 
 @app.post("/login")
