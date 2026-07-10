@@ -1,4 +1,5 @@
 import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -7,9 +8,20 @@ from models import Base, Mission
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise RuntimeError("Brak zmiennej środowiskowej DATABASE_URL")
+    raise RuntimeError("DATABASE_URL is missing")
 
-engine = create_engine(DATABASE_URL)
+# SQLAlchemy wymaga postgresql:// zamiast postgres://
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://",
+        "postgresql://",
+        1,
+    )
+
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -55,5 +67,3 @@ def seed_database():
         db.commit()
 
     db.close()
-
-psycopg2-binary
