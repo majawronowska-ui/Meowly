@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import catImage from "../assets/register-cat.jpg";
 const API_URL = import.meta.env.VITE_API_URL;
+console.log("API_URL:", API_URL);
 
 export default function Login() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function Login() {
     };
 
     try {
+      console.log("Łączę się z:", `${API_URL}/login`);
       const response = await fetch(
         `${API_URL}/login`,
         {
