@@ -51,7 +51,7 @@ export default function Admin() {
   async function loadMissions() {
     try {
       const response = await fetch(
-        "https://meowly.onrender.com/admin/missions"
+        "https://meowly.onrender.com/missions"
       );
 
       const data = await response.json();
@@ -76,7 +76,7 @@ export default function Admin() {
 
   async function createMission() {
     const response = await fetch(
-      "https://meowly.onrender.com/admin/missions",
+      "https://meowly.onrender.com/missions",
       {
         method: "POST",
         headers: {
@@ -85,8 +85,10 @@ export default function Admin() {
         body: JSON.stringify({
           title,
           description,
+          category: "inne",
           difficulty,
           xp,
+          location: "Warszawa",
         }),
       }
     );
