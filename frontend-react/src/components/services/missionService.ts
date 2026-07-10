@@ -3,43 +3,43 @@ import type { Mission } from "../../types/Mission";
 
 class MissionService {
   async getMissions(): Promise<Mission[]> {
-    return await api.get("/missions");
+    return api.get("/missions");
   }
 
   async getMission(id: number): Promise<Mission> {
-    return await api.get(`/missions/${id}`);
+    return api.get(`/missions/${id}`);
   }
 
   async createMission(mission: Omit<Mission, "id">) {
-    return await api.post("/admin/missions", mission);
+    return api.post("/missions", mission);
   }
 
   async updateMission(
     id: number,
     mission: Partial<Mission>
   ) {
-    return await api.put(`/admin/missions/${id}`, mission);
+    return api.put(`/missions/${id}`, mission);
   }
 
   async deleteMission(id: number) {
-    return await api.delete(`/admin/missions/${id}`);
+    return api.delete(`/missions/${id}`);
   }
 
   async completeMission(id: number) {
-    return await api.post(`/missions/${id}/complete`, {});
+    return api.post(`/missions/${id}/complete`, {});
   }
 
   async getNearbyMissions(
     lat: number,
     lng: number
   ): Promise<Mission[]> {
-    return await api.get(
+    return api.get(
       `/missions/nearby?lat=${lat}&lng=${lng}`
     );
   }
 
   async getUserMissions(userId: number): Promise<Mission[]> {
-    return await api.get(`/users/${userId}/missions`);
+    return api.get(`/users/${userId}/missions`);
   }
 }
 
