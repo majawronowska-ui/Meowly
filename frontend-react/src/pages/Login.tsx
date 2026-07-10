@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import catImage from "../assets/register-cat.jpg";
+
 const API_URL = import.meta.env.VITE_API_URL;
+alert("API_URL = " + API_URL);
 console.log("API_URL:", API_URL);
 
 export default function Login() {
