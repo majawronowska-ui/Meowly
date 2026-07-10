@@ -47,6 +47,12 @@ def get_db():
 def home():
     return {"message": "Meowly API działa!"}
 
+@app.get("/debug/database")
+def debug_database():
+    return {
+        "database_url": os.getenv("DATABASE_URL", "BRAK")
+    }
+
 
 @app.post("/register")
 def register_user(user: dict, db: Session = Depends(get_db)):
