@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import catImage from "../assets/register-cat.jpg";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Login() {
   const navigate = useNavigate();
-
+  
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +30,7 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        "https://meowly.onrender.com/login",
+        `${API_URL}/login`,
         {
           method: "POST",
           headers: {
