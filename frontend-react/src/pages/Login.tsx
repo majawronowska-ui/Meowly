@@ -65,11 +65,13 @@ export default function Login() {
       setMessage(
         data.message || "Nie udało się zalogować."
       );
-    } catch {
-      setMessage(
-        "Nie można połączyć się z serwerem."
-      );
-    }
+    } 
+    
+    catch (error) {
+        console.error(error);
+        alert(String(error));
+        setMessage("Nie można połączyć się z serwerem.");
+      }
 
     setLoading(false);
   }
