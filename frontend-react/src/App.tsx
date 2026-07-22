@@ -30,6 +30,8 @@ export default function App() {
 
         <Route path="/admin" element={<Admin />} />
 
+        <Route path="/missions" element={<Missions />} />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
