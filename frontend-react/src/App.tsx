@@ -8,7 +8,7 @@ import Profile from "./pages/Profile";
 import MapPage from "./pages/Map";
 import Verified from "./pages/Verified";
 import Admin from "./pages/Admin";
-import Missions from "Missions";
+import Missions from "./pages/Missions";
 
 export default function App() {
   return (

@@ -124,6 +124,7 @@ export default function ProfileAvatar({
 
         </div>
 
+<<<<<<< HEAD
         <input
           id="avatar-upload"
           type="file"
@@ -135,11 +136,27 @@ export default function ProfileAvatar({
         <label htmlFor="avatar-upload" className="mt-8 block w-full">
           <Button
             type="button"
+=======
+        <label className="mt-8 w-full">
+
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={uploadAvatar}
+          />
+
+          <Button
+>>>>>>> cec5356ed2b769c9abaa9ee4fce381adfb43e1d7
             fullWidth
             loading={loading}
           >
             Zmień zdjęcie
           </Button>
+<<<<<<< HEAD
+=======
+
+>>>>>>> cec5356ed2b769c9abaa9ee4fce381adfb43e1d7
         </label>
 
       </div>
