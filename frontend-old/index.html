@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Meowly</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Meowly</div>
+
+        <nav class="menu">
+            <a href="#">Mapa</a>
+            <a href="#">Misje</a>
+            <a href="#">Adopcje</a>
+            <a href="#">Fundacje</a>
+        </nav>
+
+        <a href="login.html" class="login-button" id="loginButton">
+            Zaloguj się
+        </a>
+    </header>
+
+    <main class="home">
+        <section class="map-section">
+            <div id="map"></div>
+        </section>
+
+        <aside class="missions-panel">
+            <h2>Misje blisko Ciebie</h2>
+
+            <div class="mission-card">
+                <h3>Sprawdź budkę</h3>
+                <p>Zweryfikuj stan budki dla kotów.</p>
+
+                <div class="mission-info">
+                    <span>+50 XP</span>
+                    <span>300 m</span>
+                </div>
+
+                <button>Rozpocznij</button>
+            </div>
+
+            <div class="mission-card">
+                <h3>Zgłoś chorego kota</h3>
+                <p>Dodaj zdjęcie i lokalizację.</p>
+
+                <div class="mission-info">
+                    <span>+100 XP</span>
+                    <span>900 m</span>
+                </div>
+
+                <button>Rozpocznij</button>
+            </div>
+
+            <div class="mission-card">
+                <h3>Pomóż fundacji</h3>
+                <p>Dostarcz karmę do punktu zbiórki.</p>
+
+                <div class="mission-info">
+                    <span>+80 XP</span>
+                    <span>1.2 km</span>
+                </div>
+
+                <button>Rozpocznij</button>
+            </div>
+        </aside>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/foundations.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin | Meowly</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="auth-page">
+        <section class="auth-card">
+            <a href="index.html" class="back-link">← Wróć do mapy</a>
+
+            <h1>Panel admina</h1>
+            <p>Dodaj podstawową misję do aplikacji.</p>
+
+            <form class="auth-form" id="mission-form">
+                <label>Tytuł misji</label>
+                <input id="title" type="text" required>
+
+                <label>Opis</label>
+                <input id="description" type="text" required>
+
+                <label>Kategoria</label>
+                <input id="category" type="text" placeholder="np. budki" required>
+
+                <label>Poziom trudności</label>
+                <input id="difficulty" type="text" placeholder="łatwa / średnia / trudna" required>
+
+                <label>XP</label>
+                <input id="xp" type="number" value="50" required>
+
+                <label>Lokalizacja</label>
+                <input id="location" type="text" value="Warszawa" required>
+
+                <button type="submit">Dodaj misję</button>
+
+                <p id="mission-message"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
